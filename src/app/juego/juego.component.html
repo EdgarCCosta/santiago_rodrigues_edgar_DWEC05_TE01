@@ -1,0 +1,47 @@
+
+<div class="container">
+    <h1>Juego de Adivinación de Números Aleatorios</h1>
+    
+    <div class="config-section">
+      <h2>Configuración del Juego</h2>
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" [(ngModel)]="nombre">
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" [(ngModel)]="apellido">
+      </div>
+      <div class="form-group">
+        <label for="rango">Rango de números:</label>
+        <input type="number" id="rango" [(ngModel)]="rango">
+      </div>
+      <div class="form-group">
+        <label for="intentos">Número de intentos:</label>
+        <input type="number" id="intentos" [(ngModel)]="intentos">
+      </div>
+      <button class="btn" (click)="recogerDatos()">Comenzar Juego</button>
+    </div>
+
+    
+    <div *ngIf="numeroGenerado !== null && intentosRestantes !== null" class="game-section">
+      <h2>{{ mensajeBienvenida }}</h2>
+      <div class="form-group">
+        <label for="numeroIngresado">Intenta adivinar el número:</label>
+        <input type="number" id="numeroIngresado" #numeroIngresadoValue>
+        <button class="btn" (click)="procesarIntento(numeroIngresadoValue.value)">Enviar</button>
+      </div>
+      <p>Intentos Restantes: {{ intentosRestantes }}</p>
+      <p *ngIf="intentosRestantes !== 0 && intentoFallido" class="error-message">Intento fallido. Sigue intentándolo.</p>
+  
+      <div *ngIf="intentosRestantes === 0 || numeroIngresado === numeroGenerado">
+        <p *ngIf="intentosRestantes === 0" class="result-message">¡Se acabaron los intentos! El número era {{ numeroGenerado }}.</p>
+        <p *ngIf="numeroIngresado === numeroGenerado" class="result-message">¡Felicidades! Has adivinado el número.</p>
+        <p>Intentos realizados:</p>
+        <ul>
+          <li *ngFor="let intento of intentosRealizados">{{ intento }}</li>
+        </ul>
+        <button class="btn" (click)="reiniciarJuego()">Reiniciar Juego</button>
+      </div>
+    </div>
+  </div>
